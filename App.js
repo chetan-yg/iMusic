@@ -1,17 +1,24 @@
-import React, { Component } from 'react'
-import { Provider } from 'react-redux';
+import React, {Component} from 'react';
+import {ActivityIndicator} from 'react-native';
+import {Provider} from 'react-redux';
+import {PersistGate} from 'redux-persist/integration/react';
 import RootContainer from './App/Containers/RootContainer';
 import createStore from './App/Redux';
+import NetworkProvider from './App/Services/NetworkProvider';
 
-const store = createStore();
+const {store, persistor} = createStore();
 
 class App extends Component {
   render() {
-  return (
+    return (
       <Provider store={store}>
-        <RootContainer />
+        <PersistGate loading={<ActivityIndicator />} persistor={persistor}>
+          <NetworkProvider>
+            <RootContainer />
+          </NetworkProvider>
+        </PersistGate>
       </Provider>
-     )
+    );
   }
 }
 

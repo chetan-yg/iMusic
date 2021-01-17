@@ -9,6 +9,7 @@ export default {
     },
     SCREENS: {
       HOME_SCREEN: 'HomeScreen',
+      ALBUM_DETAILS_SCREEN:'AlbumDetailsScreen'
     },
   },
 };
