@@ -5,6 +5,7 @@ import AppConstants from '../Constants/AppConstants'
 import HomeScreen from '../Containers/HomeScreen'
 import { navigationRef } from '../Services/NavigationService'
 import styles from './Styles/NavigationStyles'
+import AlbumDetailsScreen from '../Containers/AlbumDetailsScreen'
 
 const Stack = createStackNavigator()
 export const AppNavigation = () => {
@@ -15,7 +16,13 @@ export const AppNavigation = () => {
           name={AppConstants.NAVIGATIONS.SCREENS.HOME_SCREEN}
           component={HomeScreen}
           options={{
-            headerShown: false,
+            headerStyle: styles.header,
+          }}
+        />
+         <Stack.Screen
+          name={AppConstants.NAVIGATIONS.SCREENS.ALBUM_DETAILS_SCREEN}
+          component={AlbumDetailsScreen}
+          options={{
             headerStyle: styles.header,
           }}
         />

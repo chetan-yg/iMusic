@@ -1,8 +1,18 @@
 import React from 'react';
 import { createStore, applyMiddleware, compose } from 'redux'
+import { persistStore, persistReducer } from 'redux-persist'
 import createSagaMiddleware from 'redux-saga'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // import ScreenTrackingMiddleware from './ScreenTrackingMiddleware'
 // import { appNavigatorMiddleware } from '../Navigation/ReduxNavigation'
+
+const persistConfig = {
+  key: 'root',
+  whitelist: [
+    'iTunesSearch',
+  ],
+  storage: AsyncStorage,
+}
 
 // creates the store
 export default (rootReducer, rootSaga) => {
@@ -28,8 +38,9 @@ export default (rootReducer, rootSaga) => {
   enhancers.push(applyMiddleware(...middleware))
 
   const createAppropriateStore = createStore
-  const store = createAppropriateStore(rootReducer, compose(...enhancers))
-
+  const persistedReducer = persistReducer(persistConfig, rootReducer)
+  const store = createAppropriateStore(persistedReducer, compose(...enhancers))
+  let persistor = persistStore(store)
   // kick off root saga
   let sagasManager = sagaMiddleware.run(rootSaga)
 
@@ -37,5 +48,6 @@ export default (rootReducer, rootSaga) => {
     store,
     sagasManager,
     sagaMiddleware,
+    persistor
   }
 }
